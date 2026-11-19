@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title ? title + ' · Football Team Manager' : 'Football Team Manager' %></title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/">Football Team Manager</a>
+      <nav>
+        <a href="/" class="<%= currentPath === '/' ? 'is-active' : '' %>">Home</a>
+        <a href="/teams" class="<%= currentPath.startsWith('/teams') || currentPath.startsWith('/players') ? 'is-active' : '' %>">Teams</a>
+        <a href="/fixtures" class="<%= currentPath.startsWith('/fixtures') ? 'is-active' : '' %>">Fixtures</a>
+        <a href="/results" class="<%= currentPath.startsWith('/results') ? 'is-active' : '' %>">Results</a>
+        <a href="/table" class="<%= currentPath === '/table' ? 'is-active' : '' %>">Table</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <% if (typeof notice === 'string' && notice) { %>
+      <div class="banner success" role="status"><%= notice %></div>
+    <% } %>
+    <% if (typeof errors !== 'undefined' && errors && errors.length) { %>
+      <div class="banner error" role="alert">
+        <ul><% errors.forEach(function (msg) { %><li><%= msg %></li><% }) %></ul>
+      </div>
+    <% } %>

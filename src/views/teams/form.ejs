@@ -1,0 +1,32 @@
+<%- include('../partials/head') %>
+<div class="page-head">
+  <div>
+    <p class="eyebrow">Teams</p>
+    <h1><%= heading %></h1>
+  </div>
+</div>
+
+<section class="panel form-panel">
+  <form method="post" action="<%= action %>" class="form">
+    <label>
+      Team name
+      <input type="text" name="name" value="<%= team.name || '' %>" required maxlength="80" autofocus>
+    </label>
+    <label>
+      Short name <span class="optional">(optional)</span>
+      <input type="text" name="short_name" value="<%= team.short_name || '' %>" maxlength="8" placeholder="e.g. TA">
+    </label>
+    <label>
+      Colour <span class="optional">(optional)</span>
+      <span class="colour-row">
+        <input type="color" value="<%= team.colour || '#1F6B3A' %>" oninput="this.nextElementSibling.value = this.value">
+        <input type="text" name="colour" value="<%= team.colour || '' %>" maxlength="7" placeholder="#1F6B3A" pattern="^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$">
+      </span>
+    </label>
+    <div class="form-actions">
+      <button type="submit" class="btn">Save team</button>
+      <a class="btn btn-secondary" href="<%= team.id ? '/teams/' + team.id : '/teams' %>">Cancel</a>
+    </div>
+  </form>
+</section>
+<%- include('../partials/foot') %>

@@ -1,0 +1,45 @@
+<%- include('../partials/head') %>
+<div class="page-head">
+  <div>
+    <p class="eyebrow">Schedule</p>
+    <h1>Upcoming fixtures</h1>
+  </div>
+  <a class="btn" href="/fixtures/new">Add a fixture</a>
+</div>
+
+<% if (!fixtures.length) { %>
+  <section class="panel">
+    <p class="muted">No upcoming fixtures. Add a fixture, or enter a result for one that has been played.</p>
+  </section>
+<% } else { %>
+  <section class="panel">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Date and time</th>
+            <th scope="col">Home</th>
+            <th scope="col">Away</th>
+            <th scope="col">Venue</th>
+            <th scope="col"><span class="visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% fixtures.forEach(function (fixture) { %>
+            <tr>
+              <td><a href="/fixtures/<%= fixture.id %>"><%= formatKickoff(fixture.kickoff) %></a></td>
+              <td><%- include('../partials/swatch', { colour: fixture.home_colour }) %> <%= fixture.home_team_name %></td>
+              <td><%- include('../partials/swatch', { colour: fixture.away_colour }) %> <%= fixture.away_team_name %></td>
+              <td><%= fixture.venue || '—' %></td>
+              <td class="row-actions">
+                <a href="/fixtures/<%= fixture.id %>/result">Enter result</a>
+                <a href="/fixtures/<%= fixture.id %>/edit">Edit</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+<% } %>
+<%- include('../partials/foot') %>

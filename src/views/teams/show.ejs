@@ -1,0 +1,91 @@
+<%- include('../partials/head') %>
+<div class="page-head">
+  <div>
+    <p class="eyebrow">Team</p>
+    <h1>
+      <%- include('../partials/swatch', { colour: team.colour }) %>
+      <%= team.name %>
+      <% if (team.short_name) { %><span class="tag"><%= team.short_name %></span><% } %>
+    </h1>
+  </div>
+  <div class="hero-actions">
+    <a class="btn btn-secondary" href="/teams/<%= team.id %>/edit">Edit team</a>
+    <a class="btn" href="/teams/<%= team.id %>/players/new">Add a player</a>
+  </div>
+</div>
+
+<section class="panel">
+  <div class="panel-head">
+    <h2>Players</h2>
+  </div>
+  <% if (!players.length) { %>
+    <p class="muted">No players in this team yet.</p>
+  <% } else { %>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="num" scope="col">No.</th>
+            <th scope="col">Name</th>
+            <th scope="col">Position</th>
+            <th scope="col"><span class="visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% players.forEach(function (player) { %>
+            <tr>
+              <td class="num"><%= player.squad_number %></td>
+              <td><%= player.name %></td>
+              <td><%= POSITION_LABELS[player.position] || player.position %></td>
+              <td class="row-actions">
+                <a href="/players/<%= player.id %>/edit">Edit</a>
+                <form method="post" action="/players/<%= player.id %>/delete" onsubmit="return confirm('Remove this player?');">
+                  <button type="submit" class="linkish">Remove</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</section>
+
+<section class="panel">
+  <div class="panel-head">
+    <h2>Fixtures and results</h2>
+    <a href="/fixtures/new">Add a fixture</a>
+  </div>
+  <% if (!fixtures.length) { %>
+    <p class="muted">This team has no fixtures yet.</p>
+  <% } else { %>
+    <ul class="match-list">
+      <% fixtures.forEach(function (fixture) { %>
+        <li>
+          <a href="/fixtures/<%= fixture.id %>">
+            <span class="match-when"><%= formatKickoff(fixture.kickoff) %></span>
+            <span class="match-teams">
+              <%= fixture.home_team_name %>
+              <% if (fixture.played) { %>
+                <%= fixture.home_goals %>–<%= fixture.away_goals %>
+              <% } else { %>
+                vs
+              <% } %>
+              <%= fixture.away_team_name %>
+            </span>
+            <% if (fixture.venue) { %><span class="muted"><%= fixture.venue %></span><% } %>
+          </a>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+</section>
+
+<section class="panel danger-panel">
+  <h2>Delete team</h2>
+  <p class="muted">Players in this team will be removed. A team that is in a fixture cannot be deleted until those fixtures are removed.</p>
+  <form method="post" action="/teams/<%= team.id %>/delete" onsubmit="return confirm('Delete this team and its players?');">
+    <button type="submit" class="btn btn-danger">Delete team</button>
+  </form>
+</section>
+<%- include('../partials/foot') %>

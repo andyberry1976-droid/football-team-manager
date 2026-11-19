@@ -1,0 +1,29 @@
+<%- include('../partials/head') %>
+<div class="page-head">
+  <div>
+    <p class="eyebrow"><%= formatKickoff(fixture.kickoff) %></p>
+    <h1><%= title %></h1>
+    <p class="lede"><%= fixture.home_team_name %> vs <%= fixture.away_team_name %><% if (fixture.venue) { %> · <%= fixture.venue %><% } %></p>
+  </div>
+</div>
+
+<section class="panel form-panel">
+  <form method="post" action="/fixtures/<%= fixture.id %>/result" class="form">
+    <div class="score-fields">
+      <label>
+        <%= fixture.home_team_name %>
+        <input type="number" name="home_goals" value="<%= fixture.home_goals === 0 || fixture.home_goals ? fixture.home_goals : '' %>" min="0" max="99" step="1" required>
+      </label>
+      <span class="score-sep">–</span>
+      <label>
+        <%= fixture.away_team_name %>
+        <input type="number" name="away_goals" value="<%= fixture.away_goals === 0 || fixture.away_goals ? fixture.away_goals : '' %>" min="0" max="99" step="1" required>
+      </label>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn">Save result</button>
+      <a class="btn btn-secondary" href="/fixtures/<%= fixture.id %>">Cancel</a>
+    </div>
+  </form>
+</section>
+<%- include('../partials/foot') %>

@@ -1,0 +1,33 @@
+<%- include('../partials/head') %>
+<div class="page-head">
+  <div>
+    <p class="eyebrow"><%= team.name %></p>
+    <h1><%= heading %></h1>
+  </div>
+</div>
+
+<section class="panel form-panel">
+  <form method="post" action="<%= action %>" class="form">
+    <label>
+      Player name
+      <input type="text" name="name" value="<%= player.name || '' %>" required maxlength="80" autofocus>
+    </label>
+    <label>
+      Squad number
+      <input type="number" name="squad_number" value="<%= player.squad_number === 0 || player.squad_number ? player.squad_number : '' %>" min="0" max="99" step="1" required>
+    </label>
+    <label>
+      Position
+      <select name="position" required>
+        <% POSITIONS.forEach(function (position) { %>
+          <option value="<%= position %>" <%= player.position === position ? 'selected' : '' %>><%= POSITION_LABELS[position] %> (<%= position %>)</option>
+        <% }) %>
+      </select>
+    </label>
+    <div class="form-actions">
+      <button type="submit" class="btn">Save player</button>
+      <a class="btn btn-secondary" href="/teams/<%= team.id %>">Cancel</a>
+    </div>
+  </form>
+</section>
+<%- include('../partials/foot') %>

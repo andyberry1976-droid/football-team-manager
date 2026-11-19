@@ -1,0 +1,68 @@
+<%- include('partials/head') %>
+<section class="hero">
+  <div>
+    <p class="eyebrow">Season overview</p>
+    <h1>Football Team Manager</h1>
+    <p class="lede">Keep teams, players, fixtures and results in one place, and watch the league table update as scores come in.</p>
+  </div>
+  <div class="hero-actions">
+    <a class="btn" href="/teams/new">Add a team</a>
+    <a class="btn btn-secondary" href="/fixtures/new">Add a fixture</a>
+  </div>
+</section>
+
+<section class="grid-2">
+  <article class="panel">
+    <div class="panel-head">
+      <h2>League table</h2>
+      <a href="/table">Full table</a>
+    </div>
+    <% if (!table.length) { %>
+      <p class="muted">Add teams and results to build the table.</p>
+    <% } else { %>
+      <%- include('partials/table', { table: table, compact: true }) %>
+    <% } %>
+  </article>
+
+  <article class="panel">
+    <div class="panel-head">
+      <h2>Upcoming fixtures</h2>
+      <a href="/fixtures">All fixtures</a>
+    </div>
+    <% if (!upcoming.length) { %>
+      <p class="muted">No upcoming fixtures yet.</p>
+    <% } else { %>
+      <ul class="match-list">
+        <% upcoming.forEach(function (fixture) { %>
+          <li>
+            <a href="/fixtures/<%= fixture.id %>">
+              <span class="match-when"><%= formatKickoff(fixture.kickoff) %></span>
+              <span class="match-teams"><%= fixture.home_team_name %> vs <%= fixture.away_team_name %></span>
+              <% if (fixture.venue) { %><span class="muted"><%= fixture.venue %></span><% } %>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </article>
+</section>
+
+<% if (recent.length) { %>
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Recent results</h2>
+      <a href="/results">All results</a>
+    </div>
+    <ul class="match-list">
+      <% recent.forEach(function (fixture) { %>
+        <li>
+          <a href="/fixtures/<%= fixture.id %>">
+            <span class="match-when"><%= formatKickoff(fixture.kickoff) %></span>
+            <span class="match-teams"><%= fixture.home_team_name %> <%= fixture.home_goals %>–<%= fixture.away_goals %> <%= fixture.away_team_name %></span>
+          </a>
+        </li>
+      <% }) %>
+    </ul>
+  </section>
+<% } %>
+<%- include('partials/foot') %>

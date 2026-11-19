@@ -1,0 +1,39 @@
+<div class="table-wrap">
+  <table class="league<%= typeof compact !== 'undefined' && compact ? ' is-compact' : '' %>">
+    <thead>
+      <tr>
+        <th class="num" scope="col">Pos</th>
+        <th scope="col">Team</th>
+        <th class="num" scope="col">P</th>
+        <th class="num" scope="col">W</th>
+        <th class="num" scope="col">D</th>
+        <th class="num" scope="col">L</th>
+        <th class="num" scope="col">GF</th>
+        <th class="num" scope="col">GA</th>
+        <th class="num" scope="col">GD</th>
+        <th class="num" scope="col">Pts</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% table.forEach(function (row, index) { %>
+        <tr>
+          <td class="num"><%= index + 1 %></td>
+          <td>
+            <a class="team-link" href="/teams/<%= row.id %>">
+              <%- include('swatch', { colour: row.colour }) %>
+              <%= row.name %>
+            </a>
+          </td>
+          <td class="num"><%= row.played %></td>
+          <td class="num"><%= row.won %></td>
+          <td class="num"><%= row.drawn %></td>
+          <td class="num"><%= row.lost %></td>
+          <td class="num"><%= row.gf %></td>
+          <td class="num"><%= row.ga %></td>
+          <td class="num"><%= row.gd > 0 ? '+' + row.gd : row.gd %></td>
+          <td class="num pts"><%= row.pts %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

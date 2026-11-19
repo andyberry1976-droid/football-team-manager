@@ -1,0 +1,29 @@
+<%- include('../partials/head') %>
+<div class="page-head">
+  <div>
+    <p class="eyebrow"><%= formatKickoff(fixture.kickoff) %></p>
+    <h1>
+      <%= fixture.home_team_name %>
+      <% if (fixture.played) { %>
+        <span class="score"><%= fixture.home_goals %>–<%= fixture.away_goals %></span>
+      <% } else { %>
+        <span class="score vs">vs</span>
+      <% } %>
+      <%= fixture.away_team_name %>
+    </h1>
+    <% if (fixture.venue) { %><p class="muted"><%= fixture.venue %></p><% } %>
+  </div>
+  <div class="hero-actions">
+    <a class="btn" href="/fixtures/<%= fixture.id %>/result"><%= fixture.played ? 'Edit result' : 'Enter result' %></a>
+    <a class="btn btn-secondary" href="/fixtures/<%= fixture.id %>/edit">Edit fixture</a>
+  </div>
+</div>
+
+<section class="panel danger-panel">
+  <h2>Delete fixture</h2>
+  <p class="muted">If this match has a result, it will be removed from the league table.</p>
+  <form method="post" action="/fixtures/<%= fixture.id %>/delete" onsubmit="return confirm('Delete this fixture?');">
+    <button type="submit" class="btn btn-danger">Delete fixture</button>
+  </form>
+</section>
+<%- include('../partials/foot') %>

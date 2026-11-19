@@ -1,0 +1,57 @@
+<%- include('../partials/head') %>
+<div class="page-head">
+  <div>
+    <p class="eyebrow">Fixtures</p>
+    <h1><%= heading %></h1>
+  </div>
+</div>
+
+<section class="panel form-panel">
+  <% if (teams.length < 2) { %>
+    <p class="muted">You need at least two teams before you can add a fixture. <a href="/teams/new">Add a team</a>.</p>
+  <% } else { %>
+    <form method="post" action="<%= action %>" class="form">
+      <label>
+        Home team
+        <% if (lockTeams) { %>
+          <input type="hidden" name="home_team_id" value="<%= fixture.home_team_id %>">
+          <input type="text" value="<%= fixture.home_team_name %>" disabled>
+        <% } else { %>
+          <select name="home_team_id" required>
+            <option value="">Select a team</option>
+            <% teams.forEach(function (team) { %>
+              <option value="<%= team.id %>" <%= String(fixture.home_team_id) === String(team.id) ? 'selected' : '' %>><%= team.name %></option>
+            <% }) %>
+          </select>
+        <% } %>
+      </label>
+      <label>
+        Away team
+        <% if (lockTeams) { %>
+          <input type="hidden" name="away_team_id" value="<%= fixture.away_team_id %>">
+          <input type="text" value="<%= fixture.away_team_name %>" disabled>
+        <% } else { %>
+          <select name="away_team_id" required>
+            <option value="">Select a team</option>
+            <% teams.forEach(function (team) { %>
+              <option value="<%= team.id %>" <%= String(fixture.away_team_id) === String(team.id) ? 'selected' : '' %>><%= team.name %></option>
+            <% }) %>
+          </select>
+        <% } %>
+      </label>
+      <label>
+        Date and time
+        <input type="datetime-local" name="kickoff" value="<%= fixture.kickoff || '' %>" required>
+      </label>
+      <label>
+        Venue <span class="optional">(optional)</span>
+        <input type="text" name="venue" value="<%= fixture.venue || '' %>" maxlength="120" placeholder="e.g. Home Park">
+      </label>
+      <div class="form-actions">
+        <button type="submit" class="btn">Save fixture</button>
+        <a class="btn btn-secondary" href="<%= fixture.id ? '/fixtures/' + fixture.id : '/fixtures' %>">Cancel</a>
+      </div>
+    </form>
+  <% } %>
+</section>
+<%- include('../partials/foot') %>

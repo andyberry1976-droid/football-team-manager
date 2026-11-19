@@ -1,0 +1,17 @@
+<%- include('partials/head') %>
+<div class="page-head">
+  <div>
+    <p class="eyebrow">Standings</p>
+    <h1>League table</h1>
+    <p class="muted">Sorted by points, then goal difference, then goals for, then name. A win is worth 3 points, a draw 1 point, a loss 0.</p>
+  </div>
+</div>
+
+<section class="panel">
+  <% if (!table.length) { %>
+    <p class="muted">No teams yet. <a href="/teams/new">Add a team</a> to start the table.</p>
+  <% } else { %>
+    <%- include('partials/table', { table: table, compact: false }) %>
+  <% } %>
+</section>
+<%- include('partials/foot') %>
